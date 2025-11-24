@@ -4,7 +4,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Iterator, Optional, TextIO, Dict, List, Tuple
+from typing import Dict, Iterator, List, Optional, TextIO, Tuple
 
 import click
 

@@ -46,16 +46,16 @@ def sample_log_dir(tmp_path, sample_log_lines):
     """Create a temporary directory with multiple log files"""
     log_dir = tmp_path / "logs"
     log_dir.mkdir()
-    
+
     # Create multiple log files
     (log_dir / "app1.log").write_text("\n".join(sample_log_lines[:3]))
     (log_dir / "app2.log").write_text("\n".join(sample_log_lines[3:]))
-    
+
     # Create a subdirectory with another log
     sub_dir = log_dir / "archived"
     sub_dir.mkdir()
     (sub_dir / "old.log").write_text(sample_log_lines[0])
-    
+
     return log_dir
 
 
@@ -91,4 +91,3 @@ def log_lines_with_custom_format():
 def custom_date_format():
     """Custom date format for testing"""
     return "%d/%m/%Y-%H:%M:%S"
-
