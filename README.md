@@ -32,6 +32,10 @@ uv sync --extra dev
 
 ## Usage
 
+📖 **For comprehensive examples of all command combinations, see [EXAMPLES.md](EXAMPLES.md)**
+
+### Quick Start Examples
+
 ### Analyze Command
 
 Filter and print log lines from a file, directory, or stdin.
