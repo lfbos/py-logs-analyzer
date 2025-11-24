@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.3.1",
+    "rich",
 ]
 
 [project.optional-dependencies]
@@ -16,6 +17,9 @@ dev = [
 
 [tool.uv]
 package = true
+
+[tool.setuptools]
+py-modules = ["cli"]
 
 [project.scripts]
 logz = "cli:cli"

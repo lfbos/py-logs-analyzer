@@ -5,14 +5,15 @@ A simple yet powerful log analyzer CLI tool written in Python.
 ## Features
 
 - **Multiple input sources**: Read from files, directories (recursive), gzipped files, or stdin
+- **Beautiful colored output**: Syntax highlighting for log levels with Rich library
 - **Flexible filtering**:
   - Date range filtering (from/to timestamps)
   - Log level filtering (DEBUG, INFO, WARN, ERROR, CRITICAL)
   - Substring matching
   - Regular expression matching
-- **Statistics generation**: Get insights about log levels and per-hour distribution
+- **Statistics generation**: Get insights about log levels and per-hour distribution with beautiful tables
 - **Tail mode**: Monitor log files in real-time like `tail -f`
-- **Multiple output formats**: JSON or Markdown for statistics
+- **Multiple output formats**: JSON or formatted tables for statistics
 
 ## Installation
 
@@ -78,14 +79,15 @@ uv run logz analyze
 
 ### Stats Command
 
-Compute statistics about your log files.
+Compute statistics about your log files with beautiful formatted tables.
 
 ```bash
 # Get statistics in JSON format
 uv run logz stats app.log
 
-# Get statistics in Markdown format
+# Get statistics with formatted tables (default: markdown)
 uv run logz stats app.log --format markdown
+# Output: Beautiful tables with level distribution, percentages, and per-hour counts
 
 # Statistics with filters
 uv run logz stats app.log --level ERROR --from-ts "2025-11-20 10:00:00"
@@ -123,11 +125,13 @@ uv run logz analyze app.log --date-format "%d/%m/%Y-%H:%M:%S"
 
 ## Supported Log Levels
 
-- DEBUG
-- INFO
-- WARN / WARNING (normalized to WARN)
-- ERROR
-- CRITICAL
+Log levels are automatically color-coded in terminal output:
+
+- **DEBUG** - Dim cyan
+- **INFO** - Green  
+- **WARN / WARNING** - Yellow (normalized to WARN)
+- **ERROR** - Red
+- **CRITICAL** - Bold red
 
 ## Examples
 
@@ -243,6 +247,7 @@ logz/
 
 - Python >= 3.13
 - click >= 8.3.1
+- rich >= 13.9.0 (for beautiful colored output and tables)
 
 ### Development Requirements
 

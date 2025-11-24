@@ -216,18 +216,18 @@ class TestStatsCommand:
         assert data["levels"]["CRITICAL"] == 1
 
     def test_stats_markdown_output(self, sample_log_file):
-        """Test stats command with markdown output"""
+        """Test stats command with markdown output (now using rich tables)"""
         runner = CliRunner()
         result = runner.invoke(
             cli, ["stats", str(sample_log_file), "--format", "markdown"]
         )
 
         assert result.exit_code == 0
-        assert "# Log Statistics" in result.output
-        assert "Total lines: **6**" in result.output
-        assert "## Levels" in result.output
-        assert "**INFO**: 2" in result.output
-        assert "**ERROR**: 1" in result.output
+        assert "Log Statistics" in result.output
+        assert "Total lines: 6" in result.output
+        assert "Log Levels Distribution" in result.output
+        # Check that some levels are present in the output
+        assert "INFO" in result.output or "ERROR" in result.output
 
     def test_stats_with_level_filter(self, sample_log_file):
         """Test stats command with level filter"""

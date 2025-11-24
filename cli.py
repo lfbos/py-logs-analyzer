@@ -7,8 +7,37 @@ from pathlib import Path
 from typing import Dict, Iterator, List, Optional, TextIO, Tuple
 
 import click
+from rich.console import Console
+from rich.table import Table
+from rich import box
 
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"  # e.g. 2025-11-20 17:45:32
+
+# Rich console for pretty output
+console = Console()
+
+
+# -----------------------------
+# Helper functions for output
+# -----------------------------
+
+
+def colorize_log_line(line: str, level: Optional[str]) -> str:
+    """Add color to log line based on level"""
+    if not level:
+        return line
+    
+    # Color mapping for log levels
+    colors = {
+        "DEBUG": "dim cyan",
+        "INFO": "green",
+        "WARN": "yellow",
+        "ERROR": "red",
+        "CRITICAL": "bold red"
+    }
+    
+    color = colors.get(level.upper(), "white")
+    return f"[{color}]{line}[/{color}]"
 
 
 # -----------------------------
@@ -343,7 +372,9 @@ def analyze(
     else:
         for line in lines:
             if filters.keep(line):
-                click.echo(line.raw)
+                # Use rich console for colored output
+                colored_line = colorize_log_line(line.raw, line.level)
+                console.print(colored_line, highlight=False)
 
 
 @cli.command()
@@ -389,18 +420,49 @@ def stats(
     if fmt.lower() == "json":
         click.echo(json.dumps(data, indent=2))
     else:
-        # Simple markdown rendering
-        click.echo("# Log Statistics")
-        click.echo()
-        click.echo(f"- Total lines: **{data['total_lines']}**")
-        click.echo()
-        click.echo("## Levels")
-        for lvl, count in data["levels"].items():
-            click.echo(f"- **{lvl}**: {count}")
-        click.echo()
-        click.echo("## Per hour")
-        for hour, count in data["per_hour"].items():
-            click.echo(f"- {hour}: {count}")
+        # Rich table rendering
+        console.print("\n[bold cyan]Log Statistics[/bold cyan]", highlight=False)
+        console.print(f"Total lines: [bold green]{data['total_lines']}[/bold green]\n", highlight=False)
+        
+        # Levels table
+        if data["levels"]:
+            console.print("[bold yellow]Log Levels Distribution[/bold yellow]", highlight=False)
+            levels_table = Table(box=box.ROUNDED, show_header=True, header_style="bold magenta")
+            levels_table.add_column("Level", style="cyan", width=12)
+            levels_table.add_column("Count", justify="right", style="green")
+            levels_table.add_column("Percentage", justify="right", style="yellow")
+            
+            total = data['total_lines']
+            # Color mapping for levels
+            level_colors = {
+                "DEBUG": "dim cyan",
+                "INFO": "green",
+                "WARN": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "bold red"
+            }
+            
+            for lvl, count in sorted(data["levels"].items()):
+                percentage = (count / total * 100) if total > 0 else 0
+                color = level_colors.get(lvl, "white")
+                levels_table.add_row(
+                    f"[{color}]{lvl}[/{color}]",
+                    str(count),
+                    f"{percentage:.1f}%"
+                )
+            console.print(levels_table)
+        
+        # Per hour table
+        if data["per_hour"]:
+            console.print("\n[bold yellow]Logs Per Hour[/bold yellow]", highlight=False)
+            hour_table = Table(box=box.ROUNDED, show_header=True, header_style="bold magenta")
+            hour_table.add_column("Hour", style="cyan")
+            hour_table.add_column("Count", justify="right", style="green")
+            
+            for hour, count in sorted(data["per_hour"].items()):
+                hour_table.add_row(hour, str(count))
+            console.print(hour_table)
+        console.print()  # Empty line at the end
 
 
 @cli.command()
@@ -457,7 +519,9 @@ def tail(
             log_line = LogLine(str(file_path), raw, ts, level)
 
             if filters.keep(log_line):
-                click.echo(raw)
+                # Use rich console for colored output
+                colored_line = colorize_log_line(raw, level)
+                console.print(colored_line, highlight=False)
 
 
 if __name__ == "__main__":
