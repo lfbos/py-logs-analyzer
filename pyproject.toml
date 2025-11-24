@@ -1,0 +1,21 @@
+[project]
+name = "logz"
+version = "0.1.0"
+description = "Log analyzer CLI in Python"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0.0",
+    "pytest-cov>=7.0.0",
+]
+
+[tool.uv]
+package = true
+
+[project.scripts]
+logz = "cli:cli"
