@@ -28,3 +28,7 @@ htmlcov/
 .coverage.*
 coverage.xml
 .pytest_cache/
+
+# Logs files
+*.log
+*.log.*
