@@ -3,9 +3,7 @@ Tests for iter_files function
 """
 
 import gzip
-from pathlib import Path
 
-import pytest
 
 from cli import iter_files
 

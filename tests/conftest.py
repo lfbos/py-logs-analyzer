@@ -3,10 +3,6 @@ Pytest fixtures for logz tests
 """
 
 import gzip
-import tempfile
-from datetime import datetime
-from pathlib import Path
-from typing import List
 
 import pytest
 

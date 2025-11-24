@@ -4,7 +4,6 @@ Tests for LogStats class
 
 from datetime import datetime
 
-import pytest
 
 from cli import LogLine, LogStats
 

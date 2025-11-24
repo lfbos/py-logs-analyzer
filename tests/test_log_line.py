@@ -4,7 +4,6 @@ Tests for LogLine class
 
 from datetime import datetime
 
-import pytest
 
 from cli import LogLine
 

@@ -3,9 +3,7 @@ Tests for CLI commands (analyze, stats, tail)
 """
 
 import json
-from pathlib import Path
 
-import pytest
 from click.testing import CliRunner
 
 from cli import cli
@@ -366,7 +364,6 @@ class TestTailCommand:
 
     def test_tail_from_end(self, tmp_path):
         """Test tail command starting from end of file"""
-        import time
         from unittest.mock import patch
 
         log_file = tmp_path / "test.log"
@@ -387,7 +384,6 @@ class TestTailCommand:
 
     def test_tail_with_custom_interval(self, tmp_path):
         """Test tail command with custom interval parameter"""
-        import time
         from unittest.mock import patch
 
         log_file = tmp_path / "test.log"

@@ -3,12 +3,10 @@ Tests for parsing functions (parse_timestamp, detect_level, iter_log_lines)
 """
 
 from datetime import datetime
-from pathlib import Path
 
 import pytest
 
-from cli import (DEFAULT_DATE_FORMAT, detect_level, iter_log_lines,
-                 parse_timestamp)
+from cli import DEFAULT_DATE_FORMAT, detect_level, iter_log_lines, parse_timestamp
 
 
 class TestParseTimestamp:
