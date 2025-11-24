@@ -36,6 +36,8 @@ uv sync --extra dev
 
 Filter and print log lines from a file, directory, or stdin.
 
+**Note**: If you run `analyze` without specifying a PATH, it will read from stdin (standard input). You'll see a message indicating it's waiting for input. Press Ctrl+D to finish or Ctrl+C to cancel.
+
 ```bash
 # Analyze a single log file
 uv run logz analyze app.log
@@ -61,8 +63,13 @@ uv run logz analyze app.log --level ERROR --match "database" --from-ts "2025-11-
 # Save output to file
 uv run logz analyze app.log --level ERROR --out errors.log
 
-# Read from stdin
+# Read from stdin (pipe from another command)
 cat app.log | uv run logz analyze
+
+# Read from stdin (interactive - type or paste logs, then press Ctrl+D)
+uv run logz analyze
+# ... paste your logs here ...
+# Press Ctrl+D when done
 ```
 
 ### Stats Command

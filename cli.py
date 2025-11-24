@@ -327,6 +327,10 @@ def analyze(
     """
     Filter and print log lines from PATH (file/dir) or stdin.
     """
+    # Show hint when reading from stdin in interactive mode
+    if path is None and sys.stdin.isatty():
+        click.echo("Reading from stdin (press Ctrl+D to end, or Ctrl+C to cancel)...", err=True)
+    
     filters = build_filters(from_ts, to_ts, date_format, levels, match, regex)
     lines = iter_log_lines(path, date_format)
 
@@ -367,6 +371,10 @@ def stats(
     Compute statistics for log lines from PATH (file/dir) or stdin.
     """
     import json
+
+    # Show hint when reading from stdin in interactive mode
+    if path is None and sys.stdin.isatty():
+        click.echo("Reading from stdin (press Ctrl+D to end, or Ctrl+C to cancel)...", err=True)
 
     filters = build_filters(from_ts, to_ts, date_format, levels, match, regex)
     lines = iter_log_lines(path, date_format)
