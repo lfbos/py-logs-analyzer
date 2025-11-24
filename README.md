@@ -1,4 +1,4 @@
-# logz
+# Python Logs Analyzer
 
 A simple yet powerful log analyzer CLI tool written in Python.
 
